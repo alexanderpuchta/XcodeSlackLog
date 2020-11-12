@@ -50,19 +50,11 @@ open class XcodeSlackLog {
             return
         }
         
-        let slackMessage = self.slackGenerator.create(message: msg,
-                                   level: .debug,
-                                   file: file,
-                                   line: lineNr)
-        
-        self.slackHandler.send(slackMessage,
-                               slackURL: slack) { response in
-            switch response {
-            case .failure(let err):     self.error("\(err)")
-                
-            case .success:              self.debug("slack message sent.")
-            }
-        }
+        self.sendSlack(self.createSlackMessage(msg,
+                                               level: .debug,
+                                               file: file,
+                                               lineNr: lineNr),
+                       slack: slack)
     }
     
     /// Output of warning information with filename + linenumber
@@ -72,6 +64,17 @@ open class XcodeSlackLog {
     ///   - lineNr: #line or nil
     public static func warning(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
         print("warning :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        guard let slack = self.slackURL else {
+            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            return
+        }
+        
+        self.sendSlack(self.createSlackMessage(msg,
+                                               level: .warning,
+                                               file: file,
+                                               lineNr: lineNr),
+                       slack: slack)
     }
     
     /// Output of error information with filename + linenumber
@@ -81,6 +84,17 @@ open class XcodeSlackLog {
     ///   - lineNr: #line or nil
     public static func error(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
         print("error :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        guard let slack = self.slackURL else {
+            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            return
+        }
+        
+        self.sendSlack(self.createSlackMessage(msg,
+                                               level: .error,
+                                               file: file,
+                                               lineNr: lineNr),
+                       slack: slack)
     }
     
     /// Output of critical information with filename + linenumber
@@ -90,5 +104,41 @@ open class XcodeSlackLog {
     ///   - lineNr: #line or nil
     public static func critical(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
         print("critical :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        guard let slack = self.slackURL else {
+            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            return
+        }
+        
+        self.sendSlack(self.createSlackMessage(msg,
+                                               level: .critical,
+                                               file: file,
+                                               lineNr: lineNr),
+                       slack: slack)
+    }
+    
+    
+    // MARK: - Private
+    
+    private static func didSend() {
+        print("did send message to slack")
+    }
+    
+    private static func createSlackMessage(_ msg: String, level: SlackMessageLevel, file: String?, lineNr: UInt?) -> SlackMessage {
+        return self.slackGenerator.create(message: msg,
+                                          level: .debug,
+                                          file: file,
+                                          line: lineNr)
+    }
+    
+    private static func sendSlack(_ msg: SlackMessage, slack: String) {
+        self.slackHandler.send(msg,
+                               slackURL: slack) { response in
+            switch response {
+            case .failure(let err):     self.error("\(err)")
+                
+            case .success:              self.didSend()
+            }
+        }
     }
 }
