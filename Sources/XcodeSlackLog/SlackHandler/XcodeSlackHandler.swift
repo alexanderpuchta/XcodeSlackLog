@@ -63,6 +63,8 @@ enum Router: URLRequestConvertible {
         switch self {
         case .send(let log, _):
             
+            print(log)
+            
             let data: Data = {
                 do {
                     return try JSONEncoder().encode(log)
@@ -70,6 +72,8 @@ enum Router: URLRequestConvertible {
                     fatalError("error while encoding log")
                 }
             }()
+            
+            
             
             request.httpBody = data
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
