@@ -126,7 +126,7 @@ open class XcodeSlackLog {
     
     private static func createSlackMessage(_ msg: String, level: SlackMessageLevel, file: String?, lineNr: UInt?) -> SlackMessage {
         return self.slackGenerator.create(message: msg,
-                                          level: .debug,
+                                          level: level,
                                           file: file,
                                           line: lineNr)
     }

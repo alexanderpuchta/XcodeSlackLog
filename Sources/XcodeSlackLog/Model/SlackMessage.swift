@@ -21,8 +21,8 @@ struct SlackMessageBlockText: Codable {
 }
 
 enum SlackMessageLevel: String, Codable {
-    case debug =        "DEBUG INFORMATION"
-    case warning =      "WARNING INFORMATION"
-    case error =        "ERROR INFORMATION"
-    case critical =     "CRITICAL INFORMATION"
+    case debug =        "🔍 > DEBUG INFORMATION"
+    case warning =      "🚧 > WARNING INFORMATION"
+    case error =        "⚠️ > ERROR INFORMATION"
+    case critical =     "🚨 > CRITICAL INFORMATION"
 }
