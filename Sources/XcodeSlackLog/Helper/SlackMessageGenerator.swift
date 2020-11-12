@@ -22,6 +22,7 @@ extension SlackMessageGenerator: SlackMessageGeneratorProtocol {
     
     func create(message: String, level: SlackMessageLevel, file: String?, line: UInt?) -> SlackMessage {
         
+        print(level.rawValue)
         var blocks: [SlackMessageBlock] = []
 
         let header = SlackMessageBlock(

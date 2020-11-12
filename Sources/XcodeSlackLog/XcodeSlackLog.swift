@@ -132,7 +132,6 @@ open class XcodeSlackLog {
     }
     
     private static func sendSlack(_ msg: SlackMessage, slack: String) {
-        print("sendSlack")
         self.slackHandler.send(msg,
                                slackURL: slack) { response in
             switch response {
