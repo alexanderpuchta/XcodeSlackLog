@@ -7,7 +7,7 @@ import Foundation
 
 open class XcodeSlackLog {
     
-    static func debug(_ msg: String) {
+    public static func debug(_ msg: String) {
         print("debug:: \(msg)")
     }
 }
