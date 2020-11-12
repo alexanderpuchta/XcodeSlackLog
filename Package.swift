@@ -4,6 +4,9 @@ import PackageDescription
 
 let package = Package(
     name: "XcodeSlackLog",
+    platforms: [
+        .macOS(.v10_15)
+    ],
     products: [
         .library(
             name: "XcodeSlackLog",
@@ -14,6 +17,10 @@ let package = Package(
         .package(
             url: "https://github.com/apple/swift-log.git",
             from: "1.0.0"
+        ),
+        .package(
+            url: "https://github.com/Alamofire/Alamofire.git",
+            .upToNextMajor(from: "5.2.0")
         )
     ],
     targets: [
@@ -23,6 +30,10 @@ let package = Package(
                 .product(
                     name: "Logging",
                     package: "swift-log"
+                ),
+                .product(
+                    name: "Alamofire",
+                    package: "Alamofire"
                 )
             ]
         ),

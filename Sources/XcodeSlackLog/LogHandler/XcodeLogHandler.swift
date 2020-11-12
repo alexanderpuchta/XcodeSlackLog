@@ -6,7 +6,7 @@
 import Foundation
 import Logging
 
-class XcodeSlackLogHandler: LogHandler {
+class XcodeLogHandler: LogHandler {
     
     struct Constants {
         static let fileName = "XcodeSlackLog.swift"
@@ -67,9 +67,10 @@ class XcodeSlackLogHandler: LogHandler {
     
     // MARK: - Public
     
-//    static func output(label: String) -> SwiftyLogHandler {
-//        return SwiftyLogHandler(label: label, stream: DefaultOutputStream())
-//    }
+    static func output(label: String) -> XcodeLogHandler {
+        return XcodeLogHandler(label: label,
+                                    stream: LogOutputStream())
+    }
     
     
     // MARK: - Private
@@ -83,7 +84,7 @@ class XcodeSlackLogHandler: LogHandler {
 
 // MARK: - Icon
 
-extension XcodeSlackLogHandler {
+extension XcodeLogHandler {
     
     private func getLogHeader(_ level: Logger.Level) -> String {
         
