@@ -8,10 +8,6 @@ import Logging
 
 class XcodeLogHandler: LogHandler {
     
-    struct Constants {
-        static let fileName = "XcodeSlackLog.swift"
-    }
-    
     // Properties
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
@@ -53,7 +49,7 @@ class XcodeLogHandler: LogHandler {
         }
         let time = self.getTime()
         
-        if let file = file?.split(separator: "/").last,
+        if let file = file,
            let line = line {
             self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
         } else {
