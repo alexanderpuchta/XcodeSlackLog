@@ -6,23 +6,13 @@
 import Foundation
 
 struct SlackMessage: Codable {
-    let title: String
+    let text: String
     let blocks: [SlackMessageBlock]
-    
-    enum CodingKeys: String, CodingKey {
-        case title = "text"
-        case blocks
-    }
 }
 
 struct SlackMessageBlock: Codable {
     let type: String
-    let message: SlackMessageBlockText?
-    
-    enum CondigKeys: String, CodingKey {
-        case type
-        case message = "text"
-    }
+    let text: SlackMessageBlockText?
 }
 
 struct SlackMessageBlockText: Codable {

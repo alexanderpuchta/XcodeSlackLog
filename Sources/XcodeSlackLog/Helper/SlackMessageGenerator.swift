@@ -26,7 +26,7 @@ extension SlackMessageGenerator: SlackMessageGeneratorProtocol {
 
         let header = SlackMessageBlock(
             type: "header",
-            message: SlackMessageBlockText(
+            text: SlackMessageBlockText(
                 type: "plain_text",
                 text: level.rawValue
             )
@@ -34,7 +34,7 @@ extension SlackMessageGenerator: SlackMessageGeneratorProtocol {
         
         let body = SlackMessageBlock(
             type: "section",
-            message: SlackMessageBlockText(
+            text: SlackMessageBlockText(
                 type: "mrkdwn",
                 text: ">_\(message)_"
             )
@@ -46,12 +46,12 @@ extension SlackMessageGenerator: SlackMessageGeneratorProtocol {
            let line = line {
             let divider = SlackMessageBlock(
                 type: "divider",
-                message: nil
+                text: nil
             )
             
             let fileAndLine = SlackMessageBlock(
                 type: "section",
-                message: SlackMessageBlockText(
+                text: SlackMessageBlockText(
                     type: "mrkdwn",
                     text: "```Location: \(file)[:\(line)]"
                 )
@@ -60,7 +60,7 @@ extension SlackMessageGenerator: SlackMessageGeneratorProtocol {
             blocks.append(contentsOf: [divider, fileAndLine])
         }
         
-        return SlackMessage(title: level.rawValue,
+        return SlackMessage(text: level.rawValue,
                             blocks: blocks)
         
     }
