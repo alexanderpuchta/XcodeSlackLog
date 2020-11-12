@@ -36,7 +36,7 @@ open class XcodeSlackLog {
     ///   - lineNr: #line or nil
     public static func debug(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
         
-        self.createLog(.debug,
+        self.createLog(.info,
                        message: msg,
                        file: file,
                        line: lineNr)

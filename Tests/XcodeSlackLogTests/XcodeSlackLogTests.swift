@@ -7,7 +7,8 @@ final class XcodeSlackLogTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
         
-        XcodeSlackLog.critical("Hallo")
+        XcodeSlackLog.debug("Hallo")
+        XcodeSlackLog.warning("123", file: #file, lineNr: #line)
     }
 
     static var allTests = [

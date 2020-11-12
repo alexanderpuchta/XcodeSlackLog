@@ -19,7 +19,7 @@ class XcodeLogHandler: LogHandler {
     private let label: String
     private let stream: TextOutputStream
     
-    public var logLevel: Logger.Level = .info
+    public var logLevel: Logger.Level = .debug
     public var metadata: Logger.Metadata = [:]
     
     public subscript(metadataKey key: String) -> Logger.Metadata.Value? {
@@ -70,13 +70,13 @@ class XcodeLogHandler: LogHandler {
         
         if let msg = msg {
             if file != "XcodeSlackLog.swift" {
-                stream.write("\(icon)\(time) - \(file) :: \(msg)")
+                stream.write("\(icon)\(time) - \(file)[:\(line)] :: \(msg)")
             } else {
                 stream.write("\(icon)\(time) :: \(msg)")
             }
         } else {
             if file != "XcodeSlackLog.swift" {
-                stream.write("\(icon)\(time) - \(file)")
+                stream.write("\(icon)\(time) - \(file)[:\(line)]")
             } else {
                 stream.write("\(icon)\(time)")
             }
