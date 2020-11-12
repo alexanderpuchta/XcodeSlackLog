@@ -60,8 +60,7 @@ extension SlackMessageGenerator: SlackMessageGeneratorProtocol {
             blocks.append(contentsOf: [divider, fileAndLine])
         }
         
-        return SlackMessage(text: level.rawValue,
-                            blocks: blocks)
+        return SlackMessage(blocks: blocks)
         
     }
 }
