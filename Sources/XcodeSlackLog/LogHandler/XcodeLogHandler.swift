@@ -12,7 +12,7 @@ class XcodeLogHandler: LogHandler {
     private lazy var dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.timeZone = .autoupdatingCurrent
-        dateFormatter.dateFormat = "dd.MM - HH:mm:ss"
+        dateFormatter.dateFormat = "dd.MM[HH:mm:ss]"
         return dateFormatter
     }()
     
@@ -49,15 +49,9 @@ class XcodeLogHandler: LogHandler {
         }
         let time = self.getTime()
         
-        if let file = file.split(separator: "/").last,
-           file != "XcodeSlackLog.swift" {
-            self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
-        } else {
-            self.output(message.description, icon: icon, time: time)
+        if let file = file.split(separator: "/").last?.description {
+            self.output(message.description, icon: icon, file: file, line: line, time: time)
         }
-
-        
-
     }
     
     
@@ -71,14 +65,23 @@ class XcodeLogHandler: LogHandler {
     
     // MARK: - Private
     
-    private func output(_ msg: String? = nil, icon: String, fileInfo: String? = nil, time: String) {
+    private func output(_ msg: String? = nil, icon: String, file: String, line: UInt, time: String) {
         var stream = self.stream
-        if let file = fileInfo,
-           let msg = msg {
-            stream.write("\(icon)\(time) - \(fileInfo) :: \(msg)")
+        
+        if let msg = msg {
+            if file != "XcodeSlackLog.swift" {
+                stream.write("\(icon)\(time) - \(file) :: \(msg)")
+            } else {
+                stream.write("\(icon)\(time) :: \(msg)")
+            }
         } else {
-            stream.write("\(icon)\(time)")
+            if file != "XcodeSlackLog.swift" {
+                stream.write("\(icon)\(time) - \(file)")
+            } else {
+                stream.write("\(icon)\(time)")
+            }
         }
+        
         
         
     }
