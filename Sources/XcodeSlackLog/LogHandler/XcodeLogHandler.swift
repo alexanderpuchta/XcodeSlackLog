@@ -44,7 +44,7 @@ class XcodeLogHandler: LogHandler {
         self.stream = stream
     }
     
-    public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, source: String?, file: String?, function: String?, line: UInt?) {
+    public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, source: String, file: String, function: String, line: UInt) {
         
         let icon = self.getLogHeader(level)
         var parameters = self.metadata
