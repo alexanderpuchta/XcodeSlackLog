@@ -71,8 +71,6 @@ enum Router: URLRequestConvertible {
                 }
             }()
             
-            print(String(data: data, encoding: .utf8))
-            
             request.httpBody = data
             request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         }

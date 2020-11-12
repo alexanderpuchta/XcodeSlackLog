@@ -6,7 +6,8 @@
 import Foundation
 
 struct SlackMessage: Codable {
-    let blocks: [SlackMessageBlock]
+    let text: String
+    //SSlackMessagelet blocks: [SlackMessageBlock]
 }
 
 struct SlackMessageBlock: Codable {
