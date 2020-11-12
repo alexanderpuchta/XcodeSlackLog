@@ -49,12 +49,9 @@ class XcodeLogHandler: LogHandler {
         }
         let time = self.getTime()
         
-        if let file = file,
-           let line = line {
-            self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
-        } else {
-            self.output(message.description, icon: icon, time: time)
-        }
+
+        self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
+
     }
     
     
