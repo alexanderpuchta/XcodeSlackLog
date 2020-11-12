@@ -43,7 +43,17 @@ open class XcodeSlackLog {
     ///   - file: #file or nil
     ///   - lineNr: #line or nil
     public static func debug(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
-        print("debug :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        if let file = file,
+           let line = lineNr {
+            self.logger.log(level: .debug,
+                            "\(msg)",
+                            file: file,
+                            line: line)
+        } else {
+            self.logger.debug("\(msg)")
+        }
+        
         
         guard let slack = self.slackURL else {
             self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
@@ -63,7 +73,16 @@ open class XcodeSlackLog {
     ///   - file: #file or nil
     ///   - lineNr: #line or nil
     public static func warning(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
-        print("warning :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        if let file = file,
+           let line = lineNr {
+            self.logger.log(level: .warning,
+                            "\(msg)",
+                            file: file,
+                            line: line)
+        } else {
+            self.logger.warning("\(msg)")
+        }
         
         guard let slack = self.slackURL else {
             self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
@@ -83,7 +102,16 @@ open class XcodeSlackLog {
     ///   - file: #file or nil
     ///   - lineNr: #line or nil
     public static func error(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
-        print("error :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        if let file = file,
+           let line = lineNr {
+            self.logger.log(level: .error,
+                            "\(msg)",
+                            file: file,
+                            line: line)
+        } else {
+            self.logger.error("\(msg)")
+        }
         
         guard let slack = self.slackURL else {
             self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
@@ -103,7 +131,16 @@ open class XcodeSlackLog {
     ///   - file: #file or nil
     ///   - lineNr: #line or nil
     public static func critical(_ msg: String, file: String? = nil, lineNr: UInt? = nil) {
-        print("critical :: \(msg) :: file :: \(file ?? "") :: lineNr :: \(lineNr ?? 0)")
+        
+        if let file = file,
+           let line = lineNr {
+            self.logger.log(level: .critical,
+                            "\(msg)",
+                            file: file,
+                            line: line)
+        } else {
+            self.logger.critical("\(msg)")
+        }
         
         guard let slack = self.slackURL else {
             self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")

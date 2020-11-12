@@ -24,10 +24,7 @@ class XcodeLogHandler: LogHandler {
     private let stream: TextOutputStream
     
     public var logLevel: Logger.Level = .info
-    public var slackLevel: Logger.Level = .warning
     public var metadata: Logger.Metadata = [:]
-    
-    
     
     public subscript(metadataKey key: String) -> Logger.Metadata.Value? {
         
@@ -47,21 +44,21 @@ class XcodeLogHandler: LogHandler {
         self.stream = stream
     }
     
-    public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, source: String, file: String, function: String, line: UInt) {
+    public func log(level: Logger.Level, message: Logger.Message, metadata: Logger.Metadata?, source: String?, file: String?, function: String?, line: UInt?) {
         
         let icon = self.getLogHeader(level)
         var parameters = self.metadata
         if let metadata = metadata {
             parameters.merge(metadata, uniquingKeysWith: { (_, new) in new })
         }
-        
-        var fileName: String?
-        if !(file.split(separator: "/").last?.elementsEqual(Constants.fileName) ?? false) {
-            fileName = file.split(separator: "/").last?.description
-        }
-        
         let time = self.getTime()
-        self.output(message.description, icon: icon, fileInfo: "\(fileName ?? "")[:\(line)]", time: time)
+        
+        if let file = file?.split(separator: "/").last,
+           let line = line {
+            self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
+        } else {
+            self.output(message.description, icon: icon, time: time)
+        }
     }
     
     
@@ -75,9 +72,16 @@ class XcodeLogHandler: LogHandler {
     
     // MARK: - Private
     
-    private func output(_ msg: String? = nil, icon: String, fileInfo: String, time: String) {
+    private func output(_ msg: String? = nil, icon: String, fileInfo: String? = nil, time: String) {
         var stream = self.stream
-        stream.write("\(icon)\(time) - \(fileInfo) :: \(msg ?? "")")
+        if let file = fileInfo,
+           let msg = msg {
+            stream.write("\(icon)\(time) - \(fileInfo) :: \(msg)")
+        } else {
+            stream.write("\(icon)\(time)")
+        }
+        
+        
     }
 }
 
