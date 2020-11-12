@@ -6,6 +6,8 @@ final class XcodeSlackLogTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
+        
+        XcodeSlackLog.critical("Hallo")
     }
 
     static var allTests = [

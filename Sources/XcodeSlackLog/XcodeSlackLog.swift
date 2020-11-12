@@ -8,15 +8,7 @@ import Logging
 
 open class XcodeSlackLog {
     
-    // Properties
-    
-    private static let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = .autoupdatingCurrent
-        dateFormatter.dateFormat = "dd.MM - HH:mm:ss"
-        return dateFormatter
-    }()
-    
+    // Properties    
     private static let logger = Logger(label: "xcodeslacklog",
                                        factory: XcodeLogHandler.output)
     
@@ -51,7 +43,7 @@ open class XcodeSlackLog {
         
         
         guard let slack = self.slackURL else {
-            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            self.slackError()
             return
         }
         
@@ -75,7 +67,7 @@ open class XcodeSlackLog {
                        line: lineNr)
         
         guard let slack = self.slackURL else {
-            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            self.slackError()
             return
         }
         
@@ -99,7 +91,7 @@ open class XcodeSlackLog {
                        line: lineNr)
         
         guard let slack = self.slackURL else {
-            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            self.slackError()
             return
         }
         
@@ -123,7 +115,7 @@ open class XcodeSlackLog {
                        line: lineNr)
         
         guard let slack = self.slackURL else {
-            self.error("no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom.")
+            self.slackError()
             return
         }
         
@@ -145,15 +137,18 @@ open class XcodeSlackLog {
                         line: line ?? #line)
     }
     
-    private static func didSend() {
-        print("did send message to slack")
-    }
-    
     private static func createSlackMessage(_ msg: String, level: SlackMessageLevel, file: String?, lineNr: UInt?) -> SlackMessage {
         return self.slackGenerator.create(message: msg,
                                           level: level,
                                           file: file,
                                           line: lineNr)
+    }
+    
+    private static func didSend() {
+        self.createLog(.info,
+                       message: "message sent successfully",
+                       file: nil,
+                       line: nil)
     }
     
     private static func sendSlack(_ msg: SlackMessage, slack: String) {
@@ -165,5 +160,12 @@ open class XcodeSlackLog {
             case .success:              self.didSend()
             }
         }
+    }
+    
+    private static func slackError() {
+        self.createLog(.error,
+                       message: "no slack url added. please use XcodeSlackLog.setupSlack(url) to add your slack chatroom",
+                       file: nil,
+                       line: nil)
     }
 }
