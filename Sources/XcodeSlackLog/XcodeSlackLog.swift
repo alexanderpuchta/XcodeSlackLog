@@ -139,16 +139,10 @@ open class XcodeSlackLog {
     
     private static func createLog(_ level: Logger.Level, message: String, file: String?, line: UInt?) {
         
-        if let file = file,
-           let line = line {
-            self.logger.log(level: level,
-                            "\(message)",
-                            file: file,
-                            line: line)
-        } else {
-            self.logger.log(level: level,
-                            "\(message)")
-        }
+        self.logger.log(level: level,
+                        "\(message)",
+                        file: file ?? #file,
+                        line: line ?? #line)
     }
     
     private static func didSend() {

@@ -49,8 +49,14 @@ class XcodeLogHandler: LogHandler {
         }
         let time = self.getTime()
         
+        if let file = file.split(separator: "/").last,
+           file != "XcodeSlackLog.swift" {
+            self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
+        } else {
+            self.output(message.description, icon: icon, time: time)
+        }
 
-        self.output(message.description, icon: icon, fileInfo: "\(file)[:\(line)]", time: time)
+        
 
     }
     
