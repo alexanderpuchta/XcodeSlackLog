@@ -7,7 +7,7 @@ import Foundation
 import Alamofire
 
 protocol XcodeSlackHandlerProtocol {
-    func send(_ log: String, slackURL: String, completion: @escaping ( (Result<Void, Error>) -> Void ))
+    func send(_ log: SlackMessage, slackURL: String, completion: @escaping ( (Result<Void, Error>) -> Void ))
 }
 
 
@@ -21,7 +21,7 @@ final class XcodeSlackHandler {
 
 extension XcodeSlackHandler: XcodeSlackHandlerProtocol {
     
-    func send(_ log: String, slackURL: String, completion: @escaping ((Result<Void, Error>) -> Void)) {
+    func send(_ log: SlackMessage, slackURL: String, completion: @escaping ((Result<Void, Error>) -> Void)) {
         
         let request = Router.send(log, url: slackURL)
         AF.request(request)
@@ -40,7 +40,7 @@ extension XcodeSlackHandler: XcodeSlackHandlerProtocol {
 
 enum Router: URLRequestConvertible {
     
-    case send(_ log: String, url: String)
+    case send(_ log: SlackMessage, url: String)
     
     var baseURL: URL {
         switch self {
