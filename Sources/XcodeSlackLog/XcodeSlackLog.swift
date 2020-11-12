@@ -40,18 +40,6 @@ open class XcodeSlackLog {
                        message: msg,
                        file: file,
                        line: lineNr)
-        
-        
-        guard let slack = self.slackURL else {
-            self.slackError()
-            return
-        }
-        
-        self.sendSlack(self.createSlackMessage(msg,
-                                               level: .debug,
-                                               file: file,
-                                               lineNr: lineNr),
-                       slack: slack)
     }
     
     /// Output of warning information with filename + linenumber
@@ -65,17 +53,6 @@ open class XcodeSlackLog {
                        message: msg,
                        file: file,
                        line: lineNr)
-        
-        guard let slack = self.slackURL else {
-            self.slackError()
-            return
-        }
-        
-        self.sendSlack(self.createSlackMessage(msg,
-                                               level: .warning,
-                                               file: file,
-                                               lineNr: lineNr),
-                       slack: slack)
     }
     
     /// Output of error information with filename + linenumber
